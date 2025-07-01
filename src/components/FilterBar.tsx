@@ -1,23 +1,34 @@
 import React from 'react'
-import { DateRangePicker, type Range, type RangeKeyDict } from 'react-date-range';
+import { DatePicker } from './DatePicker'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
+
 
 interface Props {
     statusFilter: string
     setStatusFilter: (s: string) => void
-    dateRange: Range
-    setDateRange: (r: RangeKeyDict) => void
+    dateRange: {from: Date | undefined; to: Date | undefined }
+    setDateRange: (value: {
+        from: Date | undefined;
+        to: Date | undefined;
+    }) => void
 }
 
 const FilterBar: React.FC<Props> = ({ statusFilter, setStatusFilter, dateRange, setDateRange }) => (
-    <div className="flex flex-wrap gap-4 mb-4">
-        <select className="border p-2" value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
-            <option value="">All</option>
-            <option value="confirmed">Confirmed</option>
-            <option value="pending">Pending</option>
-            <option value="completed">Completed</option>
-        </select>
+    <div className="flex flex-wrap items-start gap-4 mb-4">
+        <Select value={statusFilter} onValueChange={(value) => setStatusFilter(value)}>
+            <SelectTrigger className="w-[200px]">
+                <SelectValue placeholder="Filter by status" />
+            </SelectTrigger>
+            <SelectContent>
+                <SelectItem value=" ">All</SelectItem>
+                <SelectItem value="confirmed">Confirmed</SelectItem>
+                <SelectItem value="pending">Pending</SelectItem>
+                <SelectItem value="completed">Completed</SelectItem>
+            </SelectContent>
+        </Select>
 
-        <DateRangePicker ranges={[dateRange]} onChange={setDateRange}/>
+        <DatePicker date={dateRange} setDate={setDateRange} />
+
     </div>
 )
 

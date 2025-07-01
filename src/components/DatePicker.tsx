@@ -1,88 +1,117 @@
-import React, { useState } from "react"
-import { DateRange, type Range } from "react-date-range"
-import { format } from "date-fns"
+import * as React from "react"
+import { format, subDays, startOfMonth, endOfMonth, startOfDay, endOfDay } from "date-fns"
+import { CalendarIcon } from "lucide-react"
 
+import { Button } from "@/components/ui/button"
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover"
+import { Calendar } from "@/components/ui/calendar"
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
+import { cn } from "@/lib/utils"
 
-const predefinedRanges = [
-    { label: "Today", range: () => ({ startDate: new Date(), endDate: new Date() }) },
-    {
-        label: "Yesterday", range: () => {
-            const yesterday = new Date()
-            yesterday.setDate(yesterday.getDate() - 1)
-            return { startDate: yesterday, endDate: yesterday }
-        }
+interface Props {
+    date: { from: Date | undefined; to: Date | undefined }
+    setDate: (value: { from: Date | undefined; to: Date | undefined }) => void
+}
+
+const presetOptions = {
+    Today: {
+        from: startOfDay(new Date()),
+        to: endOfDay(new Date())
     },
-    {
-        label: "Last 7 Days", range: () => {
-            const end = new Date()
-            const start = new Date()
-            start.setDate(end.getDate() - 6)
-            return { startDate: start, endDate: end }
-        }
+    Yesterday: {
+        from: startOfDay(subDays(new Date(), 1)),
+        to: endOfDay(subDays(new Date(), 1))
     },
-    {
-        label: "This Month", range: () => {
-            const now = new Date()
-            return {
-                startDate: new Date(now.getFullYear(), now.getMonth(), 1),
-                endDate: new Date(now.getFullYear(), now.getMonth() + 1, 0),
-            }
-        }
+    "Last 7 Days": {
+        from: startOfDay(subDays(new Date(), 6)),
+        to: endOfDay(new Date())
     },
-    { label: "Custom Range", range: null }, // For user to select manually
-]
+    "This Month": {
+        from: startOfDay(startOfMonth(new Date())),
+        to: endOfDay(endOfMonth(new Date()))
+    },
+    "Custom Range": null,
+}
 
-export default function DateRangePickerDropdown() {
-    const [showPicker, setShowPicker] = useState(false)
-    const [selectedRange, setSelectedRange] = useState<Range>({
-        startDate: new Date(),
-        endDate: new Date(),
-        key: "selection",
-    })
+export function DatePicker({ date, setDate }: Props) {
+    const [openPopover, setOpenPopover] = React.useState(false)
+    const [selectedPreset, setSelectedPreset] = React.useState<string | null>(null)
 
-    const handleSelect = (ranges: any) => {
-        setSelectedRange(ranges.selection)
-    }
-
-    const handlePredefinedSelect = (item: any) => {
-        if (item.range) {
-            setSelectedRange({ ...item.range(), key: "selection" })
-            setShowPicker(false)
+    const handlePresetChange = (selected: string) => {
+        setSelectedPreset(selected)
+        const preset = presetOptions[selected as keyof typeof presetOptions]
+        if (preset) {
+            setDate(preset)
+            setOpenPopover(false)
         } else {
-            setShowPicker(true)
+            setTimeout(() => {
+                setOpenPopover(true)
+            }, 0)
         }
     }
 
     return (
-        <div className="relative w-[300px]">
-            <select
-                onChange={(e) => handlePredefinedSelect(predefinedRanges[parseInt(e.target.value)])}
-                className="w-full p-2 border rounded"
-            >
-                {predefinedRanges.map((item, idx) => (
-                    <option key={idx} value={idx}>
-                        {item.label}
-                    </option>
-                ))}
-            </select>
-
-            {showPicker && (
-                <div className="absolute z-50 mt-2 shadow-lg">
-                    <DateRange
-                        editableDateInputs={true}
-                        onChange={handleSelect}
-                        moveRangeOnFirstSelection={false}
-                        ranges={[selectedRange]}
-                    />
-                </div>
+        <div className="flex gap-4 items-start">
+            <Select onValueChange={handlePresetChange}>
+                <SelectTrigger className="w-[200px]">
+                    <SelectValue placeholder="Select range" />
+                </SelectTrigger>
+                <SelectContent>
+                    {Object.keys(presetOptions).map((label) => (
+                        <SelectItem key={label} value={label}>
+                            {label}
+                        </SelectItem>
+                    ))}
+                </SelectContent>
+            </Select>
+            {selectedPreset === "Custom Range" && (
+                <Popover open={openPopover} onOpenChange={setOpenPopover}>
+                    <PopoverTrigger asChild>
+                        <Button
+                            variant="outline"
+                            className={cn(
+                                "w-[250px] justify-start text-left font-normal",
+                                !date.from && "text-muted-foreground"
+                            )}
+                        >
+                            <CalendarIcon className="mr-2 h-4 w-4" />
+                            {date.from ? (
+                                date.to ? (
+                                    <>
+                                        {format(date.from, "MMM d")} - {format(date.to, "MMM d")}
+                                    </>
+                                ) : (
+                                    format(date.from, "MMM d")
+                                )
+                            ) : (
+                                <span>Select date</span>
+                            )}
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                            initialFocus
+                            mode="range"
+                            defaultMonth={date.from}
+                            selected={date}
+                            onSelect={(range) =>
+                                setDate(range as { from: Date | undefined; to: Date | undefined })
+                            }
+                            numberOfMonths={2}
+                        />
+                    </PopoverContent>
+                </Popover>
             )}
-
-            <div className="mt-2 text-sm">
-                Selected:{" "}
-                <strong>
-                    {format(selectedRange.startDate!, "MMM d, yyyy")} → {format(selectedRange.endDate!, "MMM d, yyyy")}
-                </strong>
-            </div>
         </div>
     )
 }

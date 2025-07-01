@@ -51,8 +51,6 @@ export const AppointmentsProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
             if (!res.ok) throw new Error("Failed to reschedule appointment")
             const updated = await res.json()
-
-            // Update local state
             setAppointments(prev =>
                 prev.map(app => (app.id === id ? { ...app, time: updated.time } : app))
             )
