@@ -65,7 +65,7 @@ const Dashboard = () => {
                 ))}
             </div>
             <div className='grid md:grid-cols-2 grid-cols-1 h-full gap-4 '>
-                <GlassCard className='space-y-2 max-h-[75vh] scrollbar-none overflow-y-auto'>
+                <GlassCard className='space-y-2 max-h-[74vh] scrollbar-none overflow-y-auto'>
                     <h1 className='text-2xl font-medium'>Appointments</h1>
                     {loading ? (
                         <div className="space-y-2">
@@ -87,7 +87,7 @@ const Dashboard = () => {
 
                     )}
                 </GlassCard>
-                <GlassCard className="self-start space-y-2 max-h-[75vh] scrollbar-none overflow-y-auto">
+                <GlassCard className="self-start space-y-2 max-h-[74vh] scrollbar-none overflow-y-auto">
                     <h1 className='text-2xl font-medium'>Timeline</h1>
                     <Timeline appointments={appointments} loading={loading} />
                 </GlassCard>
