@@ -1,3 +1,68 @@
+# Appointment Dashboard
+
+A modern, responsive appointment dashboard built with **Next.js**, **TypeScript**, and **ShadCN UI**, featuring date range filtering, timeline view, and real-time UI interactions.
+
+## Features
+
+- **Date Range Filter**  
+  Filter appointments using pre-defined presets (Today, Last 7 Days, etc.) or a custom date range calendar.
+
+- **Appointment List**  
+  View filtered appointments in scrollable card layout with reschedule actions.
+
+- **Timeline View**  
+  Visual timeline for today's appointments using modular, auto-adjusting layout.
+
+- **Modular Components**  
+  Smart and maintainable code structure using reusable and isolated components.
+
+- **Dark Mode Support**  
+  Fully styled for both light and dark modes with ShadCN UI theming.
+
+- **Loading Skeletons**  
+  Skeleton placeholders for a smoother loading experience.
+
+- **State Management**  
+  Filters, date range, and modal states handled cleanly via React state.
+
+## Tech Stack
+
+- **Library:** React.js with Vite
+- **UI:** ShadCN UI
+- **Language:** TypeScript
+- **Date Utils:** date-fns
+- **Styling:** TailwindCSS
+
+
+## Getting Started
+
+1. **Clone the repo**
+  ```bash
+  git clone https://github.com/shwetkamal-gaud/doctor-dashboard.git
+  cd doctor-dashboard
+  ```
+2. **Inastall Dependencies**
+  ```bash
+  npm install
+  # or
+  yarn install
+  ```
+3. **Run Development Server**
+  ```bash
+  npm run dev
+  ```
+
+## Deployed Link
+```bash
+https://doctor-dashboard-alpha.vercel.app/
+```
+
+1. I have choosen TypeScript for tyep sefety and tailwind css for it's utility classes and responsiveness
+2. I picked Shadcn UI components for better UI and custom glassmorphism style
+3. I used Context API for state management
+4. I used mockapi.io for fetching, adding, updating appointments
+
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
