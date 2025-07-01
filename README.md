@@ -56,6 +56,10 @@ A modern, responsive appointment dashboard built with **React.js**, **TypeScript
 ```bash
 https://doctor-dashboard-alpha.vercel.app/
 ```
+## Demo video
+```bash
+https://drive.google.com/file/d/1UvAGJJ8yH05TvJa5Js1lihg0FnBNEnaZ/view?usp=sharing
+```
 
 1. I have choosen TypeScript for tyep sefety and tailwind css for it's utility classes and responsiveness
 2. I picked Shadcn UI components for better UI and custom glassmorphism style
