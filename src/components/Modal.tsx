@@ -79,7 +79,7 @@ const Modal: React.FC<Props> = ({ appointment, onClose }) => {
                     </Select>
 
                     <div className="flex justify-end gap-2">
-                        <button onClick={onClose} className="text-gray-500 dark:bg-[#eeb2b6] bg-[#310320] px-4 py-1 rounded">Cancel</button>
+                        <button onClick={onClose} className="text-white dark:bg-[#eeb2b6] bg-[#310320] px-4 py-1 rounded">Cancel</button>
                         <button type='submit' className="bg-[#eeb2b6] dark:bg-[#310320] text-white px-4 py-1 rounded">
                             {isNew ? "Add" : "Save"}
                         </button>
