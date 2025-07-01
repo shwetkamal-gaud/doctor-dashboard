@@ -1,6 +1,6 @@
 # Appointment Dashboard
 
-A modern, responsive appointment dashboard built with **Next.js**, **TypeScript**, and **ShadCN UI**, featuring date range filtering, timeline view, and real-time UI interactions.
+A modern, responsive appointment dashboard built with **React.js**, **TypeScript**,**TailwindCSS** and **ShadCN UI**, featuring date range filtering, timeline view, and real-time UI interactions.
 
 ## Features
 
